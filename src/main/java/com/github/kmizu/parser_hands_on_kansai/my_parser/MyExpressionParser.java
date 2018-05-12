@@ -25,17 +25,12 @@ public class MyExpressionParser extends AbstractExpressionParser {
             save();
             try {
                 accept('+');
-                result = new ExpressionNode.Addition(
-                        result, multitive()
-                );
+                result = new ExpressionNode.Addition(result, multitive());
             } catch (ParseFailure e1) {
                 restore();
                 try {
-                    // '-' multitive
                     accept('-');
-                    result = new ExpressionNode.Subtraction(
-                            result, multitive()
-                    );
+                    result = new ExpressionNode.Subtraction(result, multitive());
                 } catch (ParseFailure e2) {
                     return result;
                 }
@@ -49,17 +44,13 @@ public class MyExpressionParser extends AbstractExpressionParser {
             save();
             try {
                 accept('*');
-                result = new ExpressionNode.Multiplication(
-                        result, primary()
-                );
+                result = new ExpressionNode.Multiplication(result, primary());
             } catch (ParseFailure e1) {
                 restore();
                 try {
                     // '/' primary
                     accept('/');
-                    result = new ExpressionNode.Division(
-                            result, primary()
-                    );
+                    result = new ExpressionNode.Division(result, primary());
                 } catch (ParseFailure e2) {
                     return result;
                 }
