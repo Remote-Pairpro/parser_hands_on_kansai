@@ -48,7 +48,6 @@ public class MyExpressionParser extends AbstractExpressionParser {
             } catch (ParseFailure e1) {
                 restore();
                 try {
-                    // '/' primary
                     accept('/');
                     result = new ExpressionNode.Division(result, primary());
                 } catch (ParseFailure e2) {
@@ -104,7 +103,7 @@ public class MyExpressionParser extends AbstractExpressionParser {
         }
     }
 
-    public void accept(char ch) {
+    private void accept(char ch) {
         if (position < input.length() && input.charAt(position) == ch) {
             position++;
             return;
