@@ -116,6 +116,7 @@ public class MyExpressionParser extends AbstractExpressionParser {
     public void accept(char ch) {
         if (position < input.length() && input.charAt(position) == ch) {
             position++;
+            return;
         }
         throw new ParseFailure("current position is over range or current character is not " + ch);
     }
