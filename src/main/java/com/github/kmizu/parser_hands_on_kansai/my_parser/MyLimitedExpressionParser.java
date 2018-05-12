@@ -19,10 +19,10 @@ public class MyLimitedExpressionParser extends AbstractLimitedExpressionParser {
         return result;
     }
 
-    private String accept(char ch) {
+    private void accept(char ch) {
         if (position < input.length() && input.charAt(position) == ch) {
             position++;
-            return ((Character) ch).toString();
+            return;
         }
         throw new ParseFailure("current position is over range or current character is not " + ch);
     }
@@ -43,34 +43,39 @@ public class MyLimitedExpressionParser extends AbstractLimitedExpressionParser {
 
     private LimitedExpressionNode expression() {
         int lhs = integer();
-        int current = position;
         try {
+            save();
             accept('+');
             return new LimitedExpressionNode.Addition(lhs, integer());
         } catch (ParseFailure e1) {
-            position = current;
+            restore();
         }
 
         try {
+            save();
             accept('-');
             return new LimitedExpressionNode.Subtraction(lhs, integer());
         } catch (ParseFailure e2) {
-            position = current;
+            restore();
         }
 
         try {
+            save();
             accept('*');
             return new LimitedExpressionNode.Multiplication(lhs, integer());
         } catch (ParseFailure e3) {
-            position = current;
+            restore();
         }
 
         try {
+            save();
             accept('/');
             return new LimitedExpressionNode.Division(lhs, integer());
         } catch (ParseFailure e4) {
-            return new LimitedExpressionNode.ValueNode(lhs);
+            restore();
         }
+
+        return new LimitedExpressionNode.ValueNode(lhs);
     }
 
     private int integer() {
